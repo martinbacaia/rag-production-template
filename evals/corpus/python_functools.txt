@@ -1,0 +1,23 @@
+The functools module in Python provides higher-order functions and operations on callable objects. It is part of the standard library and supports common patterns such as memoization, partial application, and reduction.
+
+functools.lru_cache(maxsize=128, typed=False) is a decorator that caches the results of a function. When the function is called with arguments it has seen before, the cached result is returned instead of recomputing. The cache uses a least-recently-used eviction policy. If maxsize is set to None, the cache can grow without bound. The typed parameter, when True, treats arguments of different types as distinct keys: lru_cache(typed=True) considers f(3) and f(3.0) different calls.
+
+functools.cache, added in Python 3.9, is a simpler version of lru_cache that caches without an upper bound and without LRU eviction. It is faster than lru_cache(maxsize=None) because it skips the bookkeeping required to track recency. Use cache when you know the input space is small or when memory pressure is not a concern.
+
+functools.partial(func, /, *args, **kwargs) returns a new callable that, when called, behaves like func with the supplied positional and keyword arguments already filled in. Additional arguments passed to the partial are appended to the existing positional arguments and merged with keyword arguments. partial is commonly used to fix some parameters of a function before passing it to higher-order functions like map() or filter().
+
+functools.partialmethod is the descriptor analog of partial. It is intended for use as a method definition rather than as a callable. Unlike partial, partialmethod cannot be called directly because it requires binding to an instance.
+
+functools.reduce(function, iterable[, initializer]) applies a binary function cumulatively to the items of an iterable, reducing them to a single value. With an initializer, reduce starts from that value and folds left to right. Without one, the first two elements are combined and reduce raises TypeError on an empty input. reduce is equivalent to the foldl operation in functional languages.
+
+functools.singledispatch transforms a function into a single-dispatch generic function. The dispatch happens on the type of the first argument. Implementations for specific types are registered with the @register decorator on the original function. Single dispatch supports inheritance: if no implementation matches the runtime type exactly, the dispatcher walks the method resolution order looking for a registered ancestor.
+
+functools.singledispatchmethod is the method counterpart of singledispatch. It dispatches on the type of the first argument after self. Like singledispatch, registrations are made by chaining .register on the method.
+
+functools.wraps(wrapped) is a decorator factory that copies metadata from a wrapped function onto a wrapper. The default attributes copied include __module__, __name__, __qualname__, __doc__, __dict__, and __wrapped__. Decorators that do not use wraps lose introspection: pdb, help(), and pickle behave incorrectly because the wrapper appears under its own name and docstring.
+
+functools.update_wrapper(wrapper, wrapped) is the underlying function that wraps uses. It can be called directly when you want fine-grained control over which attributes are copied. The arguments assigned and updated control which attributes are overwritten and which are merged.
+
+functools.cached_property is a class-level descriptor that turns a method into a property whose value is computed once per instance and stored as an attribute. Subsequent accesses skip the computation. cached_property requires the class to have a __dict__ — it does not work with classes using __slots__. The cached value can be invalidated by deleting the attribute with del instance.attribute.
+
+functools.total_ordering is a class decorator that fills in the missing rich-comparison methods. Given any one of __lt__, __le__, __gt__, __ge__ along with __eq__, it generates the rest. This avoids writing six comparison methods when one is sufficient. There is a small performance cost compared to writing all comparisons by hand.

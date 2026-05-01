@@ -1,0 +1,29 @@
+Python's itertools module provides a collection of fast, memory-efficient tools for working with iterators. The functions in itertools are inspired by constructs from APL, Haskell, and SML.
+
+The itertools.count(start=0, step=1) function creates an iterator that returns evenly spaced values starting from start. Unlike range(), count produces an unbounded sequence and works with non-integer arguments such as floats. For example, count(2.5, 0.5) yields 2.5, 3.0, 3.5, and so on without ever stopping.
+
+itertools.cycle(iterable) saves a copy of the input iterable and returns elements from it repeatedly, indefinitely. When the iterable is exhausted, cycle starts over from the saved copy. Because the entire iterable must be cached, cycle is memory-intensive on large inputs.
+
+itertools.repeat(object, times=None) returns the same value over and over. If times is omitted, the iterator runs forever. When times is specified, repeat yields object exactly that many times. This is commonly used as a building block with map() to invoke a function with the same argument repeatedly.
+
+The itertools.chain(*iterables) function takes several iterables and returns a single iterator that produces all the elements of the first iterable, then all the elements of the second, and so on. chain is useful for treating consecutive sequences as a single sequence without copying data into a list.
+
+itertools.compress(data, selectors) filters elements of data using a parallel iterable of selectors. It returns elements from data where the corresponding selector is truthy. compress stops as soon as either iterable is exhausted.
+
+itertools.dropwhile(predicate, iterable) drops elements from the iterable as long as the predicate returns True. Once the predicate becomes False, dropwhile yields every remaining element regardless of the predicate. Importantly, the predicate is not re-evaluated after the first False.
+
+itertools.takewhile(predicate, iterable) does the opposite: it yields elements as long as the predicate is True, and stops at the first element for which the predicate returns False. The element that fails the predicate is consumed but not yielded.
+
+itertools.islice(iterable, start, stop, step) is the iterator equivalent of slicing a sequence. Unlike list slicing, islice does not support negative indices because iterators have no defined length. islice can only walk forward.
+
+itertools.tee(iterable, n=2) returns n independent iterators from a single input. The original iterator should not be used after calling tee, because tee buffers values that any of its outputs has not yet consumed. Memory grows if one consumer is significantly ahead of another.
+
+itertools.product(*iterables, repeat=1) computes the Cartesian product of input iterables. It is equivalent to nested for loops in a generator expression. The repeat keyword argument allows computation of the product of an iterable with itself.
+
+itertools.permutations(iterable, r=None) returns successive r-length permutations of elements from the iterable. If r is None, permutations are of length len(iterable). The output is in lexicographic order if the input is sorted.
+
+itertools.combinations(iterable, r) returns r-length tuples in sorted order, with no repeated elements. itertools.combinations_with_replacement(iterable, r) allows individual elements to be repeated. Both functions emit tuples in lexicographic ordering relative to the input.
+
+itertools.groupby(iterable, key=None) makes an iterator that returns consecutive keys and groups from the iterable. Unlike SQL GROUP BY, itertools.groupby only groups consecutive runs — the input must be sorted by the key function for the result to match the SQL semantics.
+
+The itertools.starmap(function, iterable) applies a function to argument tuples from the iterable. It is similar to map() but unpacks each tuple as positional arguments. starmap is preferred when the data is already grouped into tuples.

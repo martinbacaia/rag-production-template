@@ -1,0 +1,27 @@
+The dataclasses module, introduced in Python 3.7, provides a decorator and helper functions for automatically adding generated special methods such as __init__ and __repr__ to user-defined classes. The goal is to eliminate boilerplate when defining classes that are primarily collections of data.
+
+The @dataclass decorator inspects the class for fields. A field is any class variable with a type annotation. By default, the decorator generates __init__, __repr__, and __eq__ methods based on the declared fields. Other methods can be enabled by passing keyword arguments to the decorator.
+
+The init parameter, when set to False, suppresses generation of __init__. This is useful when the class needs custom initialization logic. The repr parameter does the same for __repr__. The eq parameter controls __eq__: when False, the class falls back to identity-based equality from object.
+
+The order parameter, when True, generates __lt__, __le__, __gt__, and __ge__ methods that compare instances field by field, in declaration order. The class becomes orderable, and instances support sorting and comparison operators. order requires eq=True.
+
+The frozen parameter, when True, makes instances immutable: the generated class raises FrozenInstanceError on any attempt to assign or delete an attribute after construction. Frozen dataclasses are hashable by default because they generate __hash__ alongside __eq__.
+
+The slots parameter, added in Python 3.10, makes the dataclass use __slots__ instead of a __dict__. Slotted dataclasses use less memory and have faster attribute access, but they cannot have new attributes added at runtime and they cannot be combined with weak references unless __weakref__ is included in the slots tuple.
+
+dataclasses.field is used to provide per-field configuration. It is called as the default value of an annotated class variable. Important parameters include default (the field's default value), default_factory (a zero-argument callable that produces the default), init (whether the field appears in __init__), repr (whether it appears in __repr__), compare (whether it participates in equality and ordering), and hash (whether it participates in __hash__).
+
+When a field has a mutable default such as a list or a dict, default_factory must be used instead of default. Using a mutable default directly raises ValueError because all instances would share the same list. The default_factory is called once per instance.
+
+dataclasses.fields(class_or_instance) returns a tuple of Field objects describing the dataclass's fields, in declaration order. This enables introspection: serialization libraries inspect the fields to determine how to encode an instance.
+
+dataclasses.asdict(instance) recursively converts a dataclass instance into a dictionary, walking nested dataclasses, dicts, lists, and tuples. dataclasses.astuple does the same but produces a tuple. Both functions accept a dict_factory or tuple_factory argument for custom output types, such as collections.OrderedDict.
+
+dataclasses.replace(instance, **changes) creates a new instance with the specified fields replaced. It is the recommended way to mutate a frozen dataclass, since direct assignment is forbidden. Fields not mentioned in changes keep their existing values.
+
+dataclasses.make_dataclass(cls_name, fields, *, bases=(), ...) creates a dataclass dynamically at runtime. The fields argument is a list of either field names, (name, type) tuples, or (name, type, Field) tuples. This is useful for code generation and for libraries that build dataclasses from external schemas.
+
+The InitVar type marks a field that should be passed to __init__ but not stored on the instance. InitVar fields are forwarded to __post_init__ for additional initialization. They do not appear in fields(), asdict(), or repr.
+
+The __post_init__ method, if defined on the dataclass, is called by the generated __init__ after all fields have been assigned. It receives the values of any InitVar fields. __post_init__ is the canonical place to derive computed attributes or to validate field values.

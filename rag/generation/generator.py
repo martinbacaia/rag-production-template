@@ -77,8 +77,14 @@ class Generator:
         query: str,
         top_k: int = 4,
         score_threshold: float = 0.0,
+        prompt_version: PromptVersion | None = None,
     ) -> GeneratedAnswer:
         """Answer ``query`` using retrieved context.
+
+        ``prompt_version`` overrides the configured template for this call
+        only — useful for A/B comparisons in the eval harness without
+        rebuilding the generator. If ``None``, the configured default is
+        used.
 
         If retrieval returns nothing (empty index, threshold too high, or
         empty/whitespace query), short-circuit with a stable "I don't
@@ -86,6 +92,8 @@ class Generator:
         round-trip and gives the eval harness a deterministic signal for
         unanswerable questions.
         """
+        version = prompt_version or self._prompt_version
+
         results = self._retriever.retrieve(
             query, top_k=top_k, score_threshold=score_threshold
         )
@@ -94,18 +102,18 @@ class Generator:
             return GeneratedAnswer(
                 answer=NO_CONTEXT_ANSWER,
                 citations=[],
-                prompt_version=self._prompt_version,
+                prompt_version=version,
                 model=self._model,
                 retrieved_count=0,
             )
 
-        prompt = render_prompt(self._prompt_version, query, results)
+        prompt = render_prompt(version, query, results)
         answer_text = self._llm.complete(prompt)
 
         return GeneratedAnswer(
             answer=answer_text,
             citations=[_to_citation(r) for r in results],
-            prompt_version=self._prompt_version,
+            prompt_version=version,
             model=self._model,
             retrieved_count=len(results),
         )

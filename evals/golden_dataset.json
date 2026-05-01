@@ -1,0 +1,146 @@
+{
+  "version": "v1",
+  "description": "Golden Q&A set over a corpus of Python stdlib documentation excerpts (itertools, functools, dataclasses).",
+  "items": [
+    {
+      "id": "itertools-count-floats",
+      "question": "Does itertools.count work with floats?",
+      "expected_substrings_in_answer": ["float", "count"],
+      "expected_substrings_in_context": ["count(2.5", "non-integer"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-cycle-memory",
+      "question": "Why is itertools.cycle memory-intensive on large inputs?",
+      "expected_substrings_in_answer": ["cache", "iterable"],
+      "expected_substrings_in_context": ["saves a copy", "cycle"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-chain-purpose",
+      "question": "What does itertools.chain do?",
+      "expected_substrings_in_answer": ["iterables", "single"],
+      "expected_substrings_in_context": ["several iterables", "single iterator"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-dropwhile-vs-takewhile",
+      "question": "What is the difference between dropwhile and takewhile?",
+      "expected_substrings_in_answer": ["predicate"],
+      "expected_substrings_in_context": ["dropwhile", "takewhile"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-islice-negative",
+      "question": "Can itertools.islice be used with negative indices?",
+      "expected_substrings_in_answer": ["negative", "no"],
+      "expected_substrings_in_context": ["does not support negative indices"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-groupby-sql",
+      "question": "How does itertools.groupby differ from SQL GROUP BY?",
+      "expected_substrings_in_answer": ["consecutive", "sort"],
+      "expected_substrings_in_context": ["consecutive runs", "input must be sorted"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "itertools-tee-warning",
+      "question": "What should you avoid doing after calling itertools.tee?",
+      "expected_substrings_in_answer": ["original", "tee"],
+      "expected_substrings_in_context": ["original iterator should not be used"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-lru-typed",
+      "question": "What does the typed parameter on functools.lru_cache do?",
+      "expected_substrings_in_answer": ["type", "distinct"],
+      "expected_substrings_in_context": ["different types as distinct keys", "typed=True"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-cache-vs-lru",
+      "question": "How does functools.cache differ from functools.lru_cache?",
+      "expected_substrings_in_answer": ["bound", "lru"],
+      "expected_substrings_in_context": ["without an upper bound", "without LRU eviction"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-partial-purpose",
+      "question": "What is the purpose of functools.partial?",
+      "expected_substrings_in_answer": ["arguments", "function"],
+      "expected_substrings_in_context": ["fix some parameters", "partial"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-reduce-empty",
+      "question": "What happens when functools.reduce is called on an empty iterable without an initializer?",
+      "expected_substrings_in_answer": ["error", "empty"],
+      "expected_substrings_in_context": ["raises TypeError on an empty input"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-singledispatch-mro",
+      "question": "How does singledispatch handle a runtime type that has no exact registered implementation?",
+      "expected_substrings_in_answer": ["resolution", "ancestor"],
+      "expected_substrings_in_context": ["method resolution order", "registered ancestor"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-wraps-purpose",
+      "question": "Why should decorators use functools.wraps?",
+      "expected_substrings_in_answer": ["metadata", "introspection"],
+      "expected_substrings_in_context": ["copies metadata", "introspection"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "functools-cached-property-slots",
+      "question": "Does functools.cached_property work with classes that use __slots__?",
+      "expected_substrings_in_answer": ["slots", "no"],
+      "expected_substrings_in_context": ["does not work with classes using __slots__"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "dataclasses-frozen",
+      "question": "What does the frozen parameter on @dataclass do?",
+      "expected_substrings_in_answer": ["immutable", "FrozenInstanceError"],
+      "expected_substrings_in_context": ["instances immutable", "FrozenInstanceError"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "dataclasses-mutable-default",
+      "question": "Why must default_factory be used for mutable defaults like lists?",
+      "expected_substrings_in_answer": ["share", "instance"],
+      "expected_substrings_in_context": ["all instances would share", "raises ValueError"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "dataclasses-replace-frozen",
+      "question": "How do you create a modified copy of a frozen dataclass?",
+      "expected_substrings_in_answer": ["replace"],
+      "expected_substrings_in_context": ["dataclasses.replace", "frozen dataclass"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "dataclasses-initvar",
+      "question": "What is an InitVar field used for?",
+      "expected_substrings_in_answer": ["init", "post_init"],
+      "expected_substrings_in_context": ["passed to __init__ but not stored", "__post_init__"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "dataclasses-slots-tradeoffs",
+      "question": "What are the tradeoffs of using slots=True on a dataclass?",
+      "expected_substrings_in_answer": ["memory", "attribute"],
+      "expected_substrings_in_context": ["less memory", "cannot have new attributes"],
+      "must_be_answerable": true
+    },
+    {
+      "id": "unanswerable-control",
+      "question": "What is the time complexity of Python's quicksort implementation in this corpus?",
+      "expected_substrings_in_answer": ["do not have enough information"],
+      "expected_substrings_in_context": [],
+      "must_be_answerable": false
+    }
+  ]
+}
