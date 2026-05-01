@@ -1,0 +1,46 @@
+services:
+  chroma:
+    image: chromadb/chroma:0.5.20
+    container_name: rag-chroma
+    restart: unless-stopped
+    volumes:
+      - chroma_data:/chroma/chroma
+    ports:
+      # Exposed for local debugging only; the API talks to it over the
+      # internal compose network on port 8000.
+      - "127.0.0.1:8001:8000"
+    environment:
+      ANONYMIZED_TELEMETRY: "FALSE"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/v2/heartbeat"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-api
+    restart: unless-stopped
+    depends_on:
+      chroma:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?OPENAI_API_KEY is required}
+      OPENAI_LLM_MODEL: ${OPENAI_LLM_MODEL:-gpt-4o-mini}
+      OPENAI_EMBEDDING_MODEL: ${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
+      CHROMA_HOST: chroma
+      CHROMA_PORT: "8000"
+      CHROMA_COLLECTION: ${CHROMA_COLLECTION:-rag_documents}
+      CHUNK_SIZE: ${CHUNK_SIZE:-800}
+      CHUNK_OVERLAP: ${CHUNK_OVERLAP:-120}
+      RETRIEVAL_TOP_K: ${RETRIEVAL_TOP_K:-4}
+      PROMPT_TEMPLATE_VERSION: ${PROMPT_TEMPLATE_VERSION:-v1}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+volumes:
+  chroma_data:

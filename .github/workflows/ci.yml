@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-flight runs on the same ref so a new push supersedes the old one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: lint + typecheck + tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      # Stub key so settings load; tests never call the real API thanks
+      # to the FakeOpenAI wiring in the integration conftest.
+      OPENAI_API_KEY: sk-test
+      LOG_LEVEL: WARNING
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          pip install -e .
+
+      - name: Lint (ruff)
+        run: ruff check rag tests
+
+      - name: Format check (ruff)
+        run: ruff format --check rag tests
+
+      - name: Type check (mypy)
+        run: mypy rag
+
+      - name: Tests (pytest + coverage)
+        run: pytest --cov-report=xml --cov-report=term
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          retention-days: 14

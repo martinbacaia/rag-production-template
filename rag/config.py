@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     vector_store_backend: VectorStoreBackend = Field(default="chroma")
     chroma_persist_dir: str = Field(default="./chroma_data")
     chroma_collection: str = Field(default="rag_documents")
+    # When ``chroma_host`` is set, the factory builds an ``HttpClient`` and
+    # ignores ``chroma_persist_dir``. This is the docker-compose mode where
+    # ChromaDB runs as a separate service.
+    chroma_host: str | None = Field(default=None)
+    chroma_port: int = Field(default=8000, ge=1, le=65535)
 
     # Ingestion
     chunk_size: int = Field(default=800, ge=64, le=8000)
