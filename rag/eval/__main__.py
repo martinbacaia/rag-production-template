@@ -45,9 +45,7 @@ GOLDEN_DATASET = REPO_ROOT / "evals" / "golden_dataset.json"
 DEFAULT_OUTPUT = REPO_ROOT / "evals" / "results" / "latest.json"
 
 
-def _ingest_corpus_if_empty(
-    pipeline: IngestionPipeline, vector_store: VectorStore
-) -> int:
+def _ingest_corpus_if_empty(pipeline: IngestionPipeline, vector_store: VectorStore) -> int:
     """Ingest each ``.txt`` file in ``evals/corpus`` if the store is empty.
 
     Idempotent across runs: chunk ids are derived from content hashes,

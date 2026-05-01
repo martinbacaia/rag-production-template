@@ -43,8 +43,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="RAG Production Template",
         description=(
-            "Retrieval-Augmented Generation reference API. "
-            "See /docs for the interactive schema."
+            "Retrieval-Augmented Generation reference API. See /docs for the interactive schema."
         ),
         version="0.1.0",
         lifespan=_lifespan,

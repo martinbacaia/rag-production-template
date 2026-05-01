@@ -36,7 +36,9 @@ def test_render_returns_pair_with_correct_version(version: str) -> None:
 
 @pytest.mark.parametrize("version", ["v1", "v2"])
 def test_question_appears_in_user_message(version: str) -> None:
-    out = render_prompt(version, "What does decorators wrap?", [_hit(0, "Decorators wrap functions.")])
+    out = render_prompt(
+        version, "What does decorators wrap?", [_hit(0, "Decorators wrap functions.")]
+    )
     assert "decorators wrap" in out.user.lower()
 
 

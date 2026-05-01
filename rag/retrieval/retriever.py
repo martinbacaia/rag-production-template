@@ -72,9 +72,7 @@ class Retriever:
         # cap at the final top_k when the reranker is a NoOp to avoid wasted
         # work.
         oversample_k = (
-            top_k
-            if isinstance(self._reranker, NoOpReranker)
-            else top_k * self._oversample_factor
+            top_k if isinstance(self._reranker, NoOpReranker) else top_k * self._oversample_factor
         )
 
         candidates = self._store.search(

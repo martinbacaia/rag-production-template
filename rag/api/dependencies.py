@@ -71,9 +71,7 @@ def get_embedder(client: OpenAIClientDep, settings: SettingsDep) -> OpenAIEmbedd
     return OpenAIEmbedder(client=client, model=settings.openai_embedding_model)
 
 
-def get_chat_client(
-    client: OpenAIClientDep, settings: SettingsDep
-) -> OpenAIChatClient:
+def get_chat_client(client: OpenAIClientDep, settings: SettingsDep) -> OpenAIChatClient:
     return OpenAIChatClient(
         client=client,
         model=settings.openai_llm_model,
@@ -106,9 +104,7 @@ def get_ingestion_pipeline(
     )
 
 
-def get_retriever(
-    embedder: EmbedderDep, vector_store: VectorStoreDep
-) -> Retriever:
+def get_retriever(embedder: EmbedderDep, vector_store: VectorStoreDep) -> Retriever:
     # Hybrid reranker is the production default; ablations can use NoOp via
     # an override in the eval harness.
     return Retriever(

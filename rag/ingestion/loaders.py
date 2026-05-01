@@ -85,8 +85,7 @@ def load_document(path: Path | str) -> LoadedDocument:
     loader = _LOADERS.get(p.suffix.lower())
     if loader is None:
         raise UnsupportedFileTypeError(
-            f"No loader registered for suffix {p.suffix!r}; "
-            f"supported: {sorted(_LOADERS)}"
+            f"No loader registered for suffix {p.suffix!r}; supported: {sorted(_LOADERS)}"
         )
     return loader(p)
 

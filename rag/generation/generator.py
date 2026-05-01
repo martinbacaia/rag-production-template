@@ -94,9 +94,7 @@ class Generator:
         """
         version = prompt_version or self._prompt_version
 
-        results = self._retriever.retrieve(
-            query, top_k=top_k, score_threshold=score_threshold
-        )
+        results = self._retriever.retrieve(query, top_k=top_k, score_threshold=score_threshold)
         if not results:
             logger.info("generation.no_context", query_len=len(query))
             return GeneratedAnswer(

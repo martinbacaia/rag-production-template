@@ -59,9 +59,7 @@ def test_eval_endpoint_404_on_missing_dataset(client: TestClient) -> None:
     assert r.status_code == 404
 
 
-def test_eval_endpoint_400_on_unknown_prompt_version(
-    client: TestClient, tmp_path: Path
-) -> None:
+def test_eval_endpoint_400_on_unknown_prompt_version(client: TestClient, tmp_path: Path) -> None:
     p = tmp_path / "ds.json"
     p.write_text(json.dumps({"version": "v1", "items": []}), encoding="utf-8")
     r = client.post(

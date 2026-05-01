@@ -58,7 +58,8 @@ def context_precision(
     if not retrieved:
         return 0.0
     relevant = sum(
-        1 for chunk in retrieved
+        1
+        for chunk in retrieved
         if _contains_any_substring(chunk.text, expected_substrings_in_context)
     )
     return relevant / len(retrieved)
@@ -76,9 +77,7 @@ def answer_substring_recall(
     if not expected_substrings_in_answer:
         return 1.0
     answer_l = answer.lower()
-    found = sum(
-        1 for s in expected_substrings_in_answer if s.lower() in answer_l
-    )
+    found = sum(1 for s in expected_substrings_in_answer if s.lower() in answer_l)
     return found / len(expected_substrings_in_answer)
 
 

@@ -45,9 +45,9 @@ def test_boundary_snapping_prefers_sentence_end() -> None:
     # tolerance window (18 chars: 42..60), the cut should snap to the
     # following sentence end if reachable, otherwise stay at target_end.
     text = (
-        "The quick brown fox jumps. "       # 27
-        "Then a slow turtle waddles by. "   # +31 = 58
-        "And finally a parrot squawks."     # +30 = 88
+        "The quick brown fox jumps. "  # 27
+        "Then a slow turtle waddles by. "  # +31 = 58
+        "And finally a parrot squawks."  # +30 = 88
     )
     chunks = chunk_text(text, source="doc", config=cfg)
     # First chunk should not break a sentence — it should end with "by." or "jumps."
@@ -78,11 +78,11 @@ def test_extra_metadata_is_propagated() -> None:
 @pytest.mark.parametrize(
     ("size", "overlap", "tolerance"),
     [
-        (0, 10, 0.1),       # size must be > 0
-        (100, -1, 0.1),     # overlap must be >= 0
-        (100, 100, 0.1),    # overlap must be < size
-        (100, 110, 0.1),    # overlap must be < size
-        (100, 10, -0.1),    # tolerance must be in [0, 0.5]
+        (0, 10, 0.1),  # size must be > 0
+        (100, -1, 0.1),  # overlap must be >= 0
+        (100, 100, 0.1),  # overlap must be < size
+        (100, 110, 0.1),  # overlap must be < size
+        (100, 10, -0.1),  # tolerance must be in [0, 0.5]
         (100, 10, 0.6),
     ],
 )

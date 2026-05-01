@@ -76,9 +76,7 @@ def _write_minimal_pdf(path: Path, body: str) -> Path:
     writer = PdfWriter()
     page = writer.add_blank_page(width=300, height=300)
     content = DecodedStreamObject()
-    content.set_data(
-        f"BT /F1 12 Tf 50 250 Td ({body}) Tj ET".encode("latin-1")
-    )
+    content.set_data(f"BT /F1 12 Tf 50 250 Td ({body}) Tj ET".encode("latin-1"))
     page[NameObject("/Contents")] = content
     page[NameObject("/Resources")] = DictionaryObject(
         {

@@ -29,9 +29,7 @@ class _FakeGenerator:
         score_threshold: float = 0.0,
         prompt_version: str | None = None,
     ) -> GeneratedAnswer:
-        self.calls.append(
-            {"query": query, "top_k": top_k, "prompt_version": prompt_version}
-        )
+        self.calls.append({"query": query, "top_k": top_k, "prompt_version": prompt_version})
         text = self._answers.get(query, "")
         return GeneratedAnswer(
             answer=text,

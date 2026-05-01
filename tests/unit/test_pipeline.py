@@ -41,9 +41,7 @@ class FakeStore:
         metadatas: Sequence[dict[str, Any]],
     ) -> None:
         for i, t, e, m in zip(ids, texts, embeddings, metadatas, strict=True):
-            self.records.append(
-                {"id": i, "text": t, "embedding": list(e), "metadata": m}
-            )
+            self.records.append({"id": i, "text": t, "embedding": list(e), "metadata": m})
 
 
 @pytest.fixture

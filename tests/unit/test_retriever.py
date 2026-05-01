@@ -61,6 +61,7 @@ class FakeStore(VectorStore):
     def delete(self, ids: Sequence[str]) -> None: ...
     def count(self) -> int:
         return len(self._results)
+
     def reset(self) -> None: ...
 
 

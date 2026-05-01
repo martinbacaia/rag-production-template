@@ -144,9 +144,7 @@ class ChromaVectorStore(VectorStore):
         distances = (result.get("distances") or [[]])[0]
 
         hits: list[SearchResult] = []
-        for hit_id, doc, meta, dist in zip(
-            ids, documents, metadatas, distances, strict=True
-        ):
+        for hit_id, doc, meta, dist in zip(ids, documents, metadatas, distances, strict=True):
             # Chroma cosine distance is in [0, 2]. Map to a similarity in
             # [0, 1] via ``1 - dist/2``. Clamp to handle floating-point drift
             # at the boundaries.

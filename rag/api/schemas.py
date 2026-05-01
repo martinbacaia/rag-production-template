@@ -16,9 +16,7 @@ from pydantic import BaseModel, Field
 
 class HealthResponse(BaseModel):
     status: str = Field(description="Always 'ok' if the process is responding.")
-    vector_store_count: int = Field(
-        description="Total number of chunks currently indexed."
-    )
+    vector_store_count: int = Field(description="Total number of chunks currently indexed.")
     embedding_model: str
     llm_model: str
     prompt_template_version: str

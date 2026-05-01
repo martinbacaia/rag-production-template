@@ -67,7 +67,7 @@ def test_keyword_overlap_pure_lexical_when_alpha_is_zero() -> None:
     reranker = KeywordOverlapReranker(alpha=0.0)
     hits = [
         _hit("a", "completely unrelated content", 0.95),  # no keyword overlap
-        _hit("b", "matching python query terms", 0.10),   # full overlap
+        _hit("b", "matching python query terms", 0.10),  # full overlap
     ]
     out = reranker.rerank("python query", hits)
     assert out[0].id == "b"

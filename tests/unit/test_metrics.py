@@ -69,7 +69,9 @@ def test_answer_substring_recall_all_present() -> None:
 
 def test_answer_substring_recall_partial() -> None:
     answer = "Decorators wrap functions."
-    assert answer_substring_recall(answer, ["decorator", "wrap", "missing-word"]) == pytest.approx(2 / 3)
+    assert answer_substring_recall(answer, ["decorator", "wrap", "missing-word"]) == pytest.approx(
+        2 / 3
+    )
 
 
 def test_answer_substring_recall_none_present() -> None:

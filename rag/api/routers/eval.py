@@ -19,9 +19,7 @@ from rag.eval.harness import EvalHarness, load_golden_dataset
 
 router = APIRouter(tags=["eval"])
 
-_DEFAULT_DATASET = (
-    Path(__file__).resolve().parents[3] / "evals" / "golden_dataset.json"
-)
+_DEFAULT_DATASET = Path(__file__).resolve().parents[3] / "evals" / "golden_dataset.json"
 _VALID_PROMPT_VERSIONS = {"v1", "v2"}
 
 
@@ -31,9 +29,7 @@ def run_eval(
     generator: GeneratorDep,
     retriever: RetrieverDep,
 ) -> EvalResponse:
-    dataset_path = (
-        Path(request.dataset_path) if request.dataset_path else _DEFAULT_DATASET
-    )
+    dataset_path = Path(request.dataset_path) if request.dataset_path else _DEFAULT_DATASET
     if not dataset_path.exists():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -104,9 +104,7 @@ def _score_row(
         id=item.id,
         question=item.question,
         answer=generated.answer,
-        context_precision=context_precision(
-            retrieved, item.expected_substrings_in_context
-        ),
+        context_precision=context_precision(retrieved, item.expected_substrings_in_context),
         answer_correctness=answer_substring_recall(
             generated.answer, item.expected_substrings_in_answer
         ),

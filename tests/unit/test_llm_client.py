@@ -124,9 +124,7 @@ def _fake_response(rate_limit: bool = False) -> httpx.Response:
 
 
 def test_embedder_returns_vectors_in_order() -> None:
-    fake_embed = _FakeEmbeddings(
-        _EmbResponse(data=[_EmbItem([0.1, 0.2]), _EmbItem([0.3, 0.4])])
-    )
+    fake_embed = _FakeEmbeddings(_EmbResponse(data=[_EmbItem([0.1, 0.2]), _EmbItem([0.3, 0.4])]))
     fake_chat = _FakeChat(_ChatResponse(choices=[]))
     client = _FakeOpenAI(
         embeddings=fake_embed,
@@ -201,9 +199,7 @@ def _prompt() -> RenderedPrompt:
 
 
 def test_chat_complete_returns_message_text() -> None:
-    fake_chat = _FakeChat(
-        _ChatResponse(choices=[_Choice(message=_Msg("the answer is 42"))])
-    )
+    fake_chat = _FakeChat(_ChatResponse(choices=[_Choice(message=_Msg("the answer is 42"))]))
     fake_embed = _FakeEmbeddings(_EmbResponse(data=[]))
     client = _FakeOpenAI(
         embeddings=fake_embed,
@@ -219,9 +215,7 @@ def test_chat_complete_returns_message_text() -> None:
 
 
 def test_chat_complete_strips_whitespace() -> None:
-    fake_chat = _FakeChat(
-        _ChatResponse(choices=[_Choice(message=_Msg("  answer  \n"))])
-    )
+    fake_chat = _FakeChat(_ChatResponse(choices=[_Choice(message=_Msg("  answer  \n"))]))
     client = _FakeOpenAI(
         embeddings=_FakeEmbeddings(_EmbResponse(data=[])),
         chat=_ChatNamespace(completions=fake_chat),
@@ -233,9 +227,7 @@ def test_chat_complete_strips_whitespace() -> None:
 def test_chat_complete_handles_none_content() -> None:
     """``finish_reason='length'`` can leave content as None — must not crash."""
     fake_chat = _FakeChat(
-        _ChatResponse(
-            choices=[_Choice(message=_Msg(None), finish_reason="length")]
-        )
+        _ChatResponse(choices=[_Choice(message=_Msg(None), finish_reason="length")])
     )
     client = _FakeOpenAI(
         embeddings=_FakeEmbeddings(_EmbResponse(data=[])),

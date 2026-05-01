@@ -72,9 +72,7 @@ class FakeEmbeddings:
 
     def create(self, *, model: str, input: Sequence[str]) -> _EmbResponse:
         self.calls.append(list(input))
-        return _EmbResponse(
-            data=[_EmbItem(embedding=self._encode(t)) for t in input]
-        )
+        return _EmbResponse(data=[_EmbItem(embedding=self._encode(t)) for t in input])
 
     def _encode(self, text: str) -> list[float]:
         # Tiny content-aware embedding: bag-of-character-buckets over the
@@ -112,9 +110,7 @@ class FakeChat:
                 "max_tokens": max_tokens,
             }
         )
-        return _ChatResponse(
-            choices=[_Choice(message=_Msg(self.response))]
-        )
+        return _ChatResponse(choices=[_Choice(message=_Msg(self.response))])
 
 
 @dataclass
@@ -150,9 +146,7 @@ def fake_openai() -> FakeOpenAI:
 @pytest.fixture
 def chroma_store() -> ChromaVectorStore:
     """Ephemeral, per-test Chroma collection."""
-    client = chromadb.EphemeralClient(
-        settings=ChromaSettings(anonymized_telemetry=False)
-    )
+    client = chromadb.EphemeralClient(settings=ChromaSettings(anonymized_telemetry=False))
     return ChromaVectorStore(
         collection_name=f"int_{uuid.uuid4().hex}",
         client=client,

@@ -24,9 +24,7 @@ def store() -> ChromaVectorStore:
     # ChromaDB's ``EphemeralClient`` reuses the same in-memory backend across
     # instances in the same process, so we isolate tests by using a unique
     # collection name per test.
-    client = chromadb.EphemeralClient(
-        settings=ChromaSettings(anonymized_telemetry=False)
-    )
+    client = chromadb.EphemeralClient(settings=ChromaSettings(anonymized_telemetry=False))
     return ChromaVectorStore(
         collection_name=f"test_{uuid.uuid4().hex}",
         client=client,
