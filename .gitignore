@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Project-specific
+/data/
+/chroma_data/
+/.chroma/
+*.db
+*.sqlite3
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Eval outputs
+evals/results/
+
+# Claude Code local settings (not part of the project)
+.claude/
